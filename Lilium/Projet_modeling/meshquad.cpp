@@ -110,12 +110,17 @@ void MeshQuad::clear()
 
 int MeshQuad::add_vertex(const Vec3& P)
 {
+    m_points.push_back(P);
 	return 0;
 }
 
 
 void MeshQuad::add_quad(int i1, int i2, int i3, int i4)
 {
+    m_quad_indices.push_back(i1);
+    m_quad_indices.push_back(i2);
+    m_quad_indices.push_back(i3);
+    m_quad_indices.push_back(i4);
 }
 
 void MeshQuad::convert_quads_to_tris(const std::vector<int>& quads, std::vector<int>& tris)
