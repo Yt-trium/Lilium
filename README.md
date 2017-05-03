@@ -7,7 +7,7 @@ Projet Géométrie pour la 3D L3S6P17
 - :white_check_mark: add_vertex : ajoute un sommet
 - :white_check_mark: add_quad : ajoute un quad
 - :white_check_mark: convert_quads_to_tris : convertit le tableau d'indices de quad en tableau d'indices de triangles.
-- :red_circle: convert_quads_to_edge : convertit le tableau d'indices de quad en tableau d'indices d'arêtes.
+- :white_circle: convert_quads_to_edge : convertit le tableau d'indices de quad en tableau d'indices d'arêtes.
 - :red_circle: create_cube : creation d'un cube
 - :red_circle: normal_of_quad : calcul de la normale moyenne à un quad
 - :red_circle: area_of_quad : calcul de l'aire d'un quad
