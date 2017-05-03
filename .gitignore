@@ -30,3 +30,7 @@
 
 # Build
 build-*
+Lilium/bin
+
+# .user
+*.user
