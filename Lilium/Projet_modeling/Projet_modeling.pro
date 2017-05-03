@@ -36,3 +36,6 @@ HEADERS  += viewer.h \
     matrices.h \
 primitives.h \
     meshquad.h
+
+DISTFILES += \
+    ../../README.md

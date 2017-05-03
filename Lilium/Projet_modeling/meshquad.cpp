@@ -130,6 +130,17 @@ void MeshQuad::convert_quads_to_tris(const std::vector<int>& quads, std::vector<
 
 	// Pour chaque quad on genere 2 triangles
 	// Attention a respecter l'orientation des triangles
+
+    for(unsigned int i=0;i<quads.size()/4;i+=4)
+    {
+        tris.push_back(quads.at(i));
+        tris.push_back(quads.at(i+1));
+        tris.push_back(quads.at(i+2));
+
+        tris.push_back(quads.at(i));
+        tris.push_back(quads.at(i+2));
+        tris.push_back(quads.at(i+3));
+    }
 }
 
 void MeshQuad::convert_quads_to_edges(const std::vector<int>& quads, std::vector<int>& edges)
