@@ -205,7 +205,7 @@ Vec3 MeshQuad::normal_of_quad(const Vec3& A, const Vec3& B, const Vec3& C, const
 	// le produit vectoriel n'est pas commutatif U ^ V = - V ^ U
 	// ne pas oublier de normaliser le resultat.
 
-	return Vec3(0,0,0);
+    return (vec_cross((D-A),(B-A)) + vec_cross((A-B),(C-B)) + vec_cross((B-C),(D-C)) + vec_cross((C-D),(A-D)));
 }
 
 float MeshQuad::area_of_quad(const Vec3& A, const Vec3& B, const Vec3& C, const Vec3& D)
@@ -349,3 +349,8 @@ void MeshQuad::tourne_quad(int q, float a)
 	gl_update();
 }
 
+void MeshQuad::debug_print_Vec3(Vec3 A)
+{
+    qDebug() << "debug_print_Vec3";
+    qDebug() << "x =" << A.x <<  " y =" << A.y <<  " z =" << A.z;
+}

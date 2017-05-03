@@ -189,6 +189,14 @@ public:
 	 */
 	void tourne_quad(int q, float a);
 
+private:
+    /*
+     * Fonctions privés, utilisés dans le cadre des tests
+     * Ces fonctions ne sont pas documentés et ne doivent pas être utilisé
+     * pour d'autre raisons que le test.
+     */
+    void debug_print_Vec3(Vec3 A);
+
 };
 
 #endif // MESHTRI_H
