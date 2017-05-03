@@ -175,7 +175,18 @@ void MeshQuad::create_cube()
 	clear();
 	// ajouter 8 sommets (-1 +1)
 
+    add_vertex(Vec3(-1,-1,-1));
+    add_vertex(Vec3( 1,-1,-1));
+    add_vertex(Vec3( 1, 1,-1));
+    add_vertex(Vec3(-1, 1,-1));
+
+    add_vertex(Vec3(-1,-1, 1));
+    add_vertex(Vec3( 1,-1, 1));
+    add_vertex(Vec3( 1, 1, 1));
+    add_vertex(Vec3(-1, 1, 1));
+
 	// ajouter 6 faces (sens trigo)
+    add_quad(0,1,2,3);
 
 	gl_update();
 }
