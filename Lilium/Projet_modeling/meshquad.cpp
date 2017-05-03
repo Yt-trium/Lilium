@@ -131,7 +131,7 @@ void MeshQuad::convert_quads_to_tris(const std::vector<int>& quads, std::vector<
 	// Pour chaque quad on genere 2 triangles
 	// Attention a respecter l'orientation des triangles
 
-    for(unsigned int i=0;i<quads.size()/4;i+=4)
+    for(unsigned int i=0;i<quads.size();i+=4)
     {
         tris.push_back(quads.at(i));
         tris.push_back(quads.at(i+1));
@@ -152,20 +152,20 @@ void MeshQuad::convert_quads_to_edges(const std::vector<int>& quads, std::vector
 	// Mais chaque arete est commune a 2 quads voisins !
 	// Comment n'avoir qu'une seule fois chaque arete ?
 
-    for(unsigned int i=0;i<quads.size()/4;i+=4)
+    for(unsigned int i=0;i<quads.size();i+=4)
     {
         edges.push_back(quads.at(i));
         edges.push_back(quads.at(i+1));
-        /*
+
         edges.push_back(quads.at(i+1));
         edges.push_back(quads.at(i+2));
-        */
+
         edges.push_back(quads.at(i+2));
         edges.push_back(quads.at(i+3));
-        /*
+
         edges.push_back(quads.at(i+3));
         edges.push_back(quads.at(i));
-        */
+
     }
 }
 
@@ -185,8 +185,16 @@ void MeshQuad::create_cube()
     add_vertex(Vec3( 1, 1, 1));
     add_vertex(Vec3(-1, 1, 1));
 
-	// ajouter 6 faces (sens trigo)
+
+    // ajouter 6 faces (sens trigo)
     add_quad(0,1,2,3);
+    add_quad(5,4,7,6);
+
+    add_quad(0,3,7,4);
+    add_quad(1,5,6,2);
+
+    add_quad(3,2,6,7);
+    add_quad(1,0,4,5);
 
 	gl_update();
 }

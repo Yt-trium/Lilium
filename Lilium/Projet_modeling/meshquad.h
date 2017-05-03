@@ -1,6 +1,8 @@
 #ifndef MESHTRI_H
 #define MESHTRI_H
 
+#include <QDebug>
+
 #include <vector>
 #include <OGLRender/shaderprogramflat.h>
 #include <OGLRender/shaderprogramcolor.h>
