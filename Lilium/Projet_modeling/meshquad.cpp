@@ -196,6 +196,8 @@ void MeshQuad::create_cube()
     add_quad(3,2,6,7);
     add_quad(1,0,4,5);
 
+    qDebug() << area_of_quad(Vec3(-1,-1, 1),Vec3( 1,-1, 1),Vec3( 1, 1, 1),Vec3(-1, 1, 1));
+
 	gl_update();
 }
 
@@ -210,13 +212,19 @@ Vec3 MeshQuad::normal_of_quad(const Vec3& A, const Vec3& B, const Vec3& C, const
 
 float MeshQuad::area_of_quad(const Vec3& A, const Vec3& B, const Vec3& C, const Vec3& D)
 {
+    // Triangle 1 ABC
+    float ABC = 0.5*vec_length(vec_cross((B-A),(C-A)));
+
+    // Triangle 2 ACD
+    float ABD = 0.5*vec_length(vec_cross((C-A),(D-A)));
+
 	// aire du quad - aire tri + aire tri
 
-	// aire du tri = 1/2 aire parallelogramme
+    // aire du tri = 1/2 aire parallelogramme
 
 	// aire parallelogramme: cf produit vectoriel
 
-	return 0.0f;
+    return ABC+ABD;
 }
 
 
