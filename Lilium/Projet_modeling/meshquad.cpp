@@ -196,7 +196,7 @@ void MeshQuad::create_cube()
     add_quad(3,2,6,7);
     add_quad(1,0,4,5);
 
-    debug_test_area_of_quad();
+    debug_test_is_points_in_quad();
 
 	gl_update();
 }
@@ -207,12 +207,13 @@ Vec3 MeshQuad::normal_of_quad(const Vec3& A, const Vec3& B, const Vec3& C, const
 	// le produit vectoriel n'est pas commutatif U ^ V = - V ^ U
 	// ne pas oublier de normaliser le resultat.
 
-    return (vec_cross((D-A),(B-A)) + vec_cross((A-B),(C-B)) + vec_cross((B-C),(D-C)) + vec_cross((C-D),(A-D)));
+    return vec_normalize(vec_cross((D-A),(B-A)) + vec_cross((A-B),(C-B)) + vec_cross((B-C),(D-C)) + vec_cross((C-D),(A-D)));
 }
 
 float MeshQuad::area_of_quad(const Vec3& A, const Vec3& B, const Vec3& C, const Vec3& D)
 {
     /*
+     * Calcul de l'air du quad même si celui ci n'est pas dans un seul plan.
      * Décomposition du quad en 2 triangles
      * Calcul de l'air des triangle puis addition.
      */
@@ -237,7 +238,7 @@ bool MeshQuad::is_points_in_quad(const Vec3& P, const Vec3& A, const Vec3& B, co
 	// On sait que P est dans le plan du quad.
 
 	// P est-il au dessus des 4 plans contenant chacun la normale au quad et une arete AB/BC/CD/DA ?
-	// si oui il est dans le quad
+    // si oui il est dans le quad
 
 	return true;
 }
@@ -364,7 +365,17 @@ void MeshQuad::tourne_quad(int q, float a)
 void MeshQuad::debug_print_Vec3(Vec3 A)
 {
     qDebug() << "debug_print_Vec3";
-    qDebug() << "x =" << A.x <<  " y =" << A.y <<  " z =" << A.z;
+    // qDebug() << "x =" << A.x <<  " y =" << A.y <<  " z =" << A.z;
+    qDebug() << "(" << A.x << "," << A.y << "," << A.z << ")";
+}
+
+void MeshQuad::debug_test_normal_of_quad()
+{
+    qDebug() << "debug_test_normal_of_quad";
+    qDebug() << "(0,0,-1) =";
+    debug_print_Vec3(normal_of_quad(Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0)));
+    qDebug() << "(0,0,1) =";
+    debug_print_Vec3(normal_of_quad(Vec3(-1,-1,0),Vec3(-1,1,0),Vec3(1,1,0),Vec3(1,-1,0)));
 }
 
 void MeshQuad::debug_test_area_of_quad()
@@ -372,4 +383,11 @@ void MeshQuad::debug_test_area_of_quad()
     qDebug() << "debug_test_area_of_quad";
     qDebug() << "18.32 ==" << area_of_quad(Vec3(-2.72,4.18, 1),Vec3(2.48,4.5, 1),Vec3(2.48, 1.1, 1),Vec3(1.56,-2, 1));
     qDebug() << "24.31 ==" << area_of_quad(Vec3(-2.72,4.18, 0),Vec3(2.48,4.5, 1),Vec3(2.48, 1.1, -1.45),Vec3(1.56,-2,2));
+}
+
+void MeshQuad::debug_test_is_points_in_quad()
+{
+    qDebug() << "debug_test_is_points_in_quad";
+    qDebug() << "true  ==" << is_points_in_quad(Vec3(0,0,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
+    qDebug() << "false ==" << is_points_in_quad(Vec3(2,0,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
 }

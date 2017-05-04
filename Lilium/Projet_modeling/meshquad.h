@@ -196,7 +196,9 @@ private:
      * pour d'autre raisons que le test.
      */
     void debug_print_Vec3(Vec3 A);
+    void debug_test_normal_of_quad();
     void debug_test_area_of_quad();
+    void debug_test_is_points_in_quad();
 };
 
 #endif // MESHTRI_H
