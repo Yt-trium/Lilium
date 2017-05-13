@@ -200,6 +200,7 @@ private:
     void debug_test_area_of_quad();
     void debug_test_is_points_in_quad();
     void debug_test_intersect_ray_quad();
+    void debug_test_intersected_visible();
 };
 
 #endif // MESHTRI_H

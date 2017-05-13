@@ -196,7 +196,7 @@ void MeshQuad::create_cube()
     add_quad(3,2,6,7);
     add_quad(1,0,4,5);
 
-    debug_test_intersect_ray_quad();
+    debug_test_intersected_visible();
 
 	gl_update();
 }
@@ -314,6 +314,28 @@ int MeshQuad::intersected_visible(const Vec3& P, const Vec3& Dir)
 	// on garde le plus proche (de P)
 
 	int inter = -1;
+    float d;
+    float tmp;
+    Vec3 I;
+
+    for(int i=0;i<m_quad_indices.size()/4;i++)
+    {
+        if(intersect_ray_quad(P,Dir,i,I))
+        {
+            tmp = vec_length(P-I);
+
+            if(inter == -1)
+            {
+                d = tmp;
+                inter = i;
+            }
+            else if(tmp < d)
+            {
+                d = tmp;
+                inter = i;
+            }
+        }
+    }
 
 	return inter;
 }
@@ -462,4 +484,12 @@ void MeshQuad::debug_test_intersect_ray_quad()
     qDebug() << "false ==" << intersect_ray_quad(Vec3(0,0,2),Vec3(0,0,1),0,inter);
 
     qDebug() << "false ==" << intersect_ray_quad(Vec3(4,4,2),Vec3(0,0,-4),0,inter);
+}
+
+void MeshQuad::debug_test_intersected_visible()
+{
+    qDebug() << "debug_test_intersected_visible";
+    qDebug() << "-1 ==" << intersected_visible(Vec3(10,10,10),Vec3(1,1,1));
+    qDebug() << " 0 ==" << intersected_visible(Vec3(0,0,2),Vec3(0,0,-10));
+    qDebug() << " 1 ==" << intersected_visible(Vec3(0,0,0.5),Vec3(0,0,-10));
 }
