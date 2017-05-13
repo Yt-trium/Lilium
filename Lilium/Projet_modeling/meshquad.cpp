@@ -196,7 +196,7 @@ void MeshQuad::create_cube()
     add_quad(3,2,6,7);
     add_quad(1,0,4,5);
 
-    debug_test_is_points_in_quad();
+    debug_test_intersect_ray_quad();
 
 	gl_update();
 }
@@ -266,19 +266,44 @@ bool MeshQuad::is_points_in_quad(const Vec3& P, const Vec3& A, const Vec3& B, co
 
 bool MeshQuad::intersect_ray_quad(const Vec3& P, const Vec3& Dir, int q, Vec3& inter)
 {
-	// recuperation des indices de points
+    // recuperation des indices de points
+    int id = q*4;
 	// recuperation des points
+    Vec3 A = m_points.at(this->m_quad_indices.at(id++));
+    Vec3 B = m_points.at(this->m_quad_indices.at(id++));
+    Vec3 C = m_points.at(this->m_quad_indices.at(id++));
+    Vec3 D = m_points.at(this->m_quad_indices.at(id++));
 
-	// calcul de l'equation du plan (N+d)
+    // calcul de l'equation du plan (N+d)
+    Vec3 N = normal_of_quad(A,B,C,D);
+
+    /* P : N.x * x + N.y * y + C.z * z + d = 0 */
+    float a = N.x;
+    float b = N.y;
+    float c = N.z;
+    float d = -(N.x * A.x + N.y * A.y + N.z * A.z);
+
+    /*
+    qDebug() << -(N.x * A.x + N.y * A.y + N.z * A.z);
+    qDebug() << -(N.x * B.x + N.y * B.y + N.z * B.z);
+    qDebug() << -(N.x * C.x + N.y * C.y + N.z * C.z);
+    qDebug() << -(N.x * D.x + N.y * A.y + N.z * D.z);
+    */
 
 	// calcul de l'intersection rayon plan
 	// I = P + alpha*Dir est dans le plan => calcul de alpha
 
 	// alpha => calcul de I
 
-	// I dans le quad ?
+    float alpha = -(d + a*P.x + b*P.y + c*P.z) / (a*Dir.x + b*Dir.y + c*Dir.z);
 
-	return false;
+    inter = Vec3(alpha * Dir.x + P.x,alpha * Dir.y + P.y,alpha * Dir.z + P.z);
+
+    if(alpha > 1 || alpha < 0)
+        return false;
+
+    // I dans le quad ?
+    return is_points_in_quad(inter,A,B,C,D);
 }
 
 
@@ -385,7 +410,7 @@ void MeshQuad::tourne_quad(int q, float a)
 
 void MeshQuad::debug_print_Vec3(Vec3 A)
 {
-    qDebug() << "debug_print_Vec3";
+    // qDebug() << "debug_print_Vec3";
     // qDebug() << "x =" << A.x <<  " y =" << A.y <<  " z =" << A.z;
     qDebug() << "(" << A.x << "," << A.y << "," << A.z << ")";
 }
@@ -416,4 +441,25 @@ void MeshQuad::debug_test_is_points_in_quad()
 
     qDebug() << "false ==" << is_points_in_quad(Vec3(2,0,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
     qDebug() << "false ==" << is_points_in_quad(Vec3(12,12,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
+}
+
+void MeshQuad::debug_test_intersect_ray_quad()
+{
+    qDebug() << "debug_test_intersect_ray_quad";
+    Vec3 inter(0,0,0);
+    qDebug() << "true  ==" << intersect_ray_quad(Vec3(0,0,2),Vec3(0,0,-4),0,inter);
+    debug_print_Vec3(inter);
+            qDebug() << " == ";
+    debug_print_Vec3(Vec3(0,0,1));
+
+    qDebug() << "true  ==" << intersect_ray_quad(Vec3(0,0,0),Vec3(0.5,0.5,2),0,inter);
+    debug_print_Vec3(inter);
+            qDebug() << " == ";
+    debug_print_Vec3(Vec3(0.25,0.25,1));
+
+    qDebug() << "false ==" << intersect_ray_quad(Vec3(0,0,3),Vec3(0,0,-1),0,inter);
+
+    qDebug() << "false ==" << intersect_ray_quad(Vec3(0,0,2),Vec3(0,0,1),0,inter);
+
+    qDebug() << "false ==" << intersect_ray_quad(Vec3(4,4,2),Vec3(0,0,-4),0,inter);
 }

@@ -12,7 +12,7 @@ Projet Géométrie pour la 3D L3S6P17
 - :white_check_mark: normal_of_quad : calcul de la normale moyenne à un quad
 - :white_check_mark: area_of_quad : calcul de l'aire d'un quad
 - :white_check_mark: is_point_in_quad: est-ce qu'un points est dans un quad, le points étant déjà dans le même plan que le quad (considéré comme plan)
-- :red_circle: intersect_ray_quad: calcul de l'intersection entre un rayon et un quad. 
+- :white_circle: intersect_ray_quad: calcul de l'intersection entre un rayon et un quad.
 Le rayon est donné par un point et un vecteur, utilise is_point_in_quad
 - :red_circle: intersected_visible: trouve le quad visible (le plus proche de la caméra) du maillage qui est intersecté par un rayon.
 - :red_circle: local_frame: calcule la matrice de transformation qui définit un repère local au milieu de la face,
