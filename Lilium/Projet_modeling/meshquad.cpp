@@ -240,7 +240,28 @@ bool MeshQuad::is_points_in_quad(const Vec3& P, const Vec3& A, const Vec3& B, co
 	// P est-il au dessus des 4 plans contenant chacun la normale au quad et une arete AB/BC/CD/DA ?
     // si oui il est dans le quad
 
-	return true;
+    auto is_point_up = [&] (Vec3 u, Vec3 v, Vec3 A, Vec3 P) -> float
+    {
+        float a = (u.y*v.z-u.z*v.y);
+        float b = (u.z*v.x-u.x*v.z);
+        float c = (u.x*v.y-u.y*v.x);
+        float d = -(a*A.x+b*A.y+c*A.z);
+        return (a*P.x + b*P.y + c*P.z + d);
+    };
+
+    Vec3 N = normal_of_quad(A,B,C,D);
+
+    Vec3 AB = B-A;
+    Vec3 BC = C-B;
+    Vec3 CD = D-C;
+    Vec3 DA = A-D;
+
+    float P1 =  is_point_up(AB,N,A,P);
+    float P2 =  is_point_up(BC,N,B,P);
+    float P3 =  is_point_up(CD,N,C,P);
+    float P4 =  is_point_up(DA,N,D,P);
+
+    return std::signbit(-P1) && std::signbit(-P2) && std::signbit(-P3) && std::signbit(-P4);
 }
 
 bool MeshQuad::intersect_ray_quad(const Vec3& P, const Vec3& Dir, int q, Vec3& inter)
@@ -359,7 +380,7 @@ void MeshQuad::tourne_quad(int q, float a)
 	// Application au 4 points du quad
 
 
-	gl_update();
+    gl_update();
 }
 
 void MeshQuad::debug_print_Vec3(Vec3 A)
@@ -389,5 +410,10 @@ void MeshQuad::debug_test_is_points_in_quad()
 {
     qDebug() << "debug_test_is_points_in_quad";
     qDebug() << "true  ==" << is_points_in_quad(Vec3(0,0,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
+    qDebug() << "true  ==" << is_points_in_quad(Vec3(0.5,-0.5,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
+    qDebug() << "true  ==" << is_points_in_quad(Vec3(-0.5, 0.5,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
+    qDebug() << "true  ==" << is_points_in_quad(Vec3(0.5, 0.5,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
+
     qDebug() << "false ==" << is_points_in_quad(Vec3(2,0,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
+    qDebug() << "false ==" << is_points_in_quad(Vec3(12,12,0),Vec3(-1,-1,0),Vec3(1,-1,0),Vec3(1,1,0),Vec3(-1,1,0));
 }
