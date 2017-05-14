@@ -559,6 +559,7 @@ void MeshQuad::create_fig1()
     for(int i=beg;i<end;i++)
     {
         extrude_quad(i);
+        tourne_quad(i,0.1);
         shrink_quad(i,0.1);
     }
 
