@@ -114,7 +114,17 @@ void Viewer::keyPressEvent(QKeyEvent *event)
                 m_mesh.decale_quad(m_selected_quad,-0.01);
         break;
 
-			// z/Z shrink
+        // z/Z shrink
+        case Qt::Key_Z:
+            if(m_selected_quad != -1)
+            {
+                if(event->modifiers() && Qt::ShiftModifier)
+                    m_mesh.shrink_quad(m_selected_quad,0.01);
+                else
+                    m_mesh.shrink_quad(m_selected_quad,-0.01);
+            }
+        break;
+
 			// t/T tourne
 
 			// Attention au cas m_selected_quad == -1
@@ -122,7 +132,7 @@ void Viewer::keyPressEvent(QKeyEvent *event)
 
 		default:
 			break;
-	}
+    }
 
 	// retrace la fenetre
 	updateGL();

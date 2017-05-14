@@ -467,13 +467,28 @@ void MeshQuad::decale_quad(int q, float d)
 void MeshQuad::shrink_quad(int q, float s)
 {
 	// recuperation des indices de points
+    int id = q*4;
+    int IDA = m_quad_indices.at(id);
+    int IDB = m_quad_indices.at(id+1);
+    int IDC = m_quad_indices.at(id+2);
+    int IDD = m_quad_indices.at(id+3);
 
 	// recuperation des (references de) points
+    Vec3 A = m_points.at(IDA);
+    Vec3 B = m_points.at(IDB);
+    Vec3 C = m_points.at(IDC);
+    Vec3 D = m_points.at(IDD);
 
 	// ici  pas besoin de passer par une matrice
 	// calcul du centre
+    Vec3 center = (A + B + C + D);
+    center /= 4;
 
 	 // modification des points
+    m_points[IDA] += (center-A)*s;
+    m_points[IDB] += (center-B)*s;
+    m_points[IDC] += (center-C)*s;
+    m_points[IDD] += (center-D)*s;
 
 	gl_update();
 }
