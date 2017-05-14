@@ -528,6 +528,26 @@ void MeshQuad::tourne_quad(int q, float a)
     gl_update();
 }
 
+void MeshQuad::create_fig1()
+{
+    qDebug() << "create_fig1";
+
+    clear();
+    create_cube();
+
+    int beg=m_quad_indices.size()/4-6;
+    int end=m_quad_indices.size()/4;
+
+    for(int c=0;c<32;c++)
+    for(int i=beg;i<end;i++)
+    {
+        extrude_quad(i);
+        shrink_quad(i,0.1);
+    }
+
+    gl_update();
+}
+
 void MeshQuad::debug_print_Vec3(Vec3 A)
 {
     // qDebug() << "debug_print_Vec3";

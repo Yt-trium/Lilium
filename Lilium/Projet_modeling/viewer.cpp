@@ -138,6 +138,10 @@ void Viewer::keyPressEvent(QKeyEvent *event)
             }
         break;
 
+        case Qt::Key_1:
+            m_mesh.create_fig1();
+        break;
+
 		default:
 			break;
     }

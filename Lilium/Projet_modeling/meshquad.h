@@ -189,6 +189,11 @@ public:
 	 */
 	void tourne_quad(int q, float a);
 
+    /**
+     * @brief create a geometric figure
+     */
+    void create_fig1();
+
 private:
     /*
      * Fonctions privés, utilisés dans le cadre des tests
