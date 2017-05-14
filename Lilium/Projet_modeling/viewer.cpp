@@ -98,6 +98,8 @@ void Viewer::keyPressEvent(QKeyEvent *event)
 				m_mesh.create_cube();
         break;
 
+        // Attention au cas m_selected_quad == -1
+
         // e extrusion
         case Qt::Key_E:
             if(m_selected_quad != -1)
@@ -125,10 +127,16 @@ void Viewer::keyPressEvent(QKeyEvent *event)
             }
         break;
 
-			// t/T tourne
-
-			// Attention au cas m_selected_quad == -1
-
+        // t/T tourne
+        case Qt::Key_T:
+            if(m_selected_quad != -1)
+            {
+                if(event->modifiers() && Qt::ShiftModifier)
+                    m_mesh.tourne_quad(m_selected_quad,0.01);
+                else
+                    m_mesh.tourne_quad(m_selected_quad,-0.01);
+            }
+        break;
 
 		default:
 			break;

@@ -437,6 +437,8 @@ void MeshQuad::extrude_quad(int q)
 
 void MeshQuad::decale_quad(int q, float d)
 {
+    // qDebug() << "decale_quad" << q << d;
+
 	// recuperation des indices de points
     int id = q*4;
     int IDA = m_quad_indices.at(id);
@@ -466,6 +468,8 @@ void MeshQuad::decale_quad(int q, float d)
 
 void MeshQuad::shrink_quad(int q, float s)
 {
+    // qDebug() << "shrink_quad" << q << s;
+
 	// recuperation des indices de points
     int id = q*4;
     int IDA = m_quad_indices.at(id);
@@ -496,16 +500,30 @@ void MeshQuad::shrink_quad(int q, float s)
 
 void MeshQuad::tourne_quad(int q, float a)
 {
+    qDebug() << "tourne_quad" << q << a;
+
 	// recuperation des indices de points
+    int id = q*4;
+    int IDA = m_quad_indices.at(id);
+    int IDB = m_quad_indices.at(id+1);
+    int IDC = m_quad_indices.at(id+2);
+    int IDD = m_quad_indices.at(id+3);
 
 	// recuperation des (references de) points
+    Vec3 A = m_points.at(IDA);
+    Vec3 B = m_points.at(IDB);
+    Vec3 C = m_points.at(IDC);
+    Vec3 D = m_points.at(IDD);
 
 	// generation de la matrice de transfo:
 	// tourne autour du Z de la local frame
 	// indice utilisation de glm::inverse()
 
-	// Application au 4 points du quad
+    // ATTENTE DE l'IMPLEMENTATION DE LA ROTATION DANS local_frame
 
+    Mat4 transfo = local_frame(q);
+
+    // Application au 4 points du quad
 
     gl_update();
 }
