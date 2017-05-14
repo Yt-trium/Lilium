@@ -149,7 +149,12 @@ void Viewer::keyPressEvent(QKeyEvent *event)
 			break;
     }
 
-	// retrace la fenetre
+    if (m_selected_quad>=0)
+    {
+        m_selected_frame = m_mesh.local_frame(m_selected_quad);
+    }
+
+    // retrace la fenetre
 	updateGL();
 	QGLViewer::keyPressEvent(event);
 }
