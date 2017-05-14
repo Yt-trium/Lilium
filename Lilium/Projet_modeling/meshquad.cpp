@@ -152,20 +152,26 @@ void MeshQuad::convert_quads_to_edges(const std::vector<int>& quads, std::vector
 	// Mais chaque arete est commune a 2 quads voisins !
 	// Comment n'avoir qu'une seule fois chaque arete ?
 
+    auto add_edges = [&] (int a, int b, std::vector<int>& edges) -> int
+    {
+        for (int i=0;i<edges.size();i+=2)
+        {
+            if((edges[i] == quads.at(a) && edges[i+1] == quads.at(b)) || (edges[i] == quads.at(b) && edges[i+1] == quads.at(a)))
+                return 0;
+        }
+        edges.push_back(quads.at(a));
+        edges.push_back(quads.at(b));
+        return 2;
+    };
+
+    int c = 0;
+
     for(unsigned int i=0;i<quads.size();i+=4)
     {
-        edges.push_back(quads.at(i));
-        edges.push_back(quads.at(i+1));
-
-        edges.push_back(quads.at(i+1));
-        edges.push_back(quads.at(i+2));
-
-        edges.push_back(quads.at(i+2));
-        edges.push_back(quads.at(i+3));
-
-        edges.push_back(quads.at(i+3));
-        edges.push_back(quads.at(i));
-
+        c+= add_edges(i,i+1,edges);
+        c+= add_edges(i+1,i+2,edges);
+        c+= add_edges(i+2,i+3,edges);
+        c+= add_edges(i+3,i,edges);
     }
 }
 
