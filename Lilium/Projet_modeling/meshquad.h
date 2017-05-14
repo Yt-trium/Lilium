@@ -194,6 +194,12 @@ public:
      */
     void create_fig1();
 
+    /**
+     * @brief create a geometric figure
+     */
+    void create_fig2();
+    void fig2(int r);
+
 private:
     /*
      * Fonctions privés, utilisés dans le cadre des tests

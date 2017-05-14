@@ -548,6 +548,38 @@ void MeshQuad::create_fig1()
     gl_update();
 }
 
+void MeshQuad::create_fig2()
+{
+    qDebug() << "create_fig2";
+
+    clear();
+    create_cube();
+
+    fig2(3);
+
+    gl_update();
+}
+
+void MeshQuad::fig2(int r)
+{
+    if(r==0)
+        return;
+    else
+    {
+        int beg=m_quad_indices.size()/4-6;
+        int end=m_quad_indices.size()/4;
+
+        for(int i=beg;i<end;i++)
+        {
+            extrude_quad(i);
+            shrink_quad(i,0.8);
+            extrude_quad(i);
+            shrink_quad(i,0.3);
+            fig2(r-1);
+        }
+    }
+}
+
 void MeshQuad::debug_print_Vec3(Vec3 A)
 {
     // qDebug() << "debug_print_Vec3";
