@@ -438,12 +438,27 @@ void MeshQuad::extrude_quad(int q)
 void MeshQuad::decale_quad(int q, float d)
 {
 	// recuperation des indices de points
+    int id = q*4;
+    int IDA = m_quad_indices.at(id);
+    int IDB = m_quad_indices.at(id+1);
+    int IDC = m_quad_indices.at(id+2);
+    int IDD = m_quad_indices.at(id+3);
 
 	// recuperation des (references de) points
+    Vec3 A = m_points.at(IDA);
+    Vec3 B = m_points.at(IDB);
+    Vec3 C = m_points.at(IDC);
+    Vec3 D = m_points.at(IDD);
 
 	// calcul de la normale
+    Vec3 N = normal_of_quad(A,B,C,D);
+    float distance = sqrt(area_of_quad(A,B,C,D)) * d;
 
-	// modification des points
+    // modification des points
+    m_points[IDA] += N*-distance;
+    m_points[IDB] += N*-distance;
+    m_points[IDC] += N*-distance;
+    m_points[IDD] += N*-distance;
 
 	gl_update();
 }

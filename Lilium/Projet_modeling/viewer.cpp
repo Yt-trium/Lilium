@@ -104,7 +104,16 @@ void Viewer::keyPressEvent(QKeyEvent *event)
                 m_mesh.extrude_quad(m_selected_quad);
         break;
 
-			// +/- decale
+        // +/- decale
+        case Qt::Key_Plus:
+            if(m_selected_quad != -1)
+                m_mesh.decale_quad(m_selected_quad,0.01);
+        break;
+        case Qt::Key_Minus:
+            if(m_selected_quad != -1)
+                m_mesh.decale_quad(m_selected_quad,-0.01);
+        break;
+
 			// z/Z shrink
 			// t/T tourne
 

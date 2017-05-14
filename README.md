@@ -20,6 +20,6 @@ avec Z aligné sur la normale et X aligné sur la première arête du quad.
 - :white_check_mark: extrude_quad: extrude une face quadrangulaire le long de sa normale,
 on la décalera d'une distance proportionnelle à la racine carré de son aire.
 La face extrudée reste à sa place dans le tableau d'indices (si c'est la ième face, elle reste la ième face)
-- :red_circle: decal_quad : décale la face suivant la normale d'une distance proportionnelle à la racine carré de son aire
+- :white_circle: decal_quad : décale la face suivant la normale d'une distance proportionnelle à la racine carré de son aire
 - :red_circle: shrink_quad : effectue une homothétie sur la face (centrée sur le centre de la face)
 - :red_circle: tourne_quad : tourne la face autour de sa normale
