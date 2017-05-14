@@ -144,6 +144,9 @@ void Viewer::keyPressEvent(QKeyEvent *event)
         case Qt::Key_2:
             m_mesh.create_fig2();
         break;
+        case Qt::Key_3:
+            m_mesh.create_fig3();
+        break;
 
 		default:
 			break;
