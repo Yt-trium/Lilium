@@ -515,15 +515,32 @@ void MeshQuad::tourne_quad(int q, float a)
     Vec3 C = m_points.at(IDC);
     Vec3 D = m_points.at(IDD);
 
+    // calcul du centre et de la normal
+    Vec3 center = (A + B + C + D);
+    center /= 4;
+    Vec3 N = normal_of_quad(A,B,C,D);
+
 	// generation de la matrice de transfo:
+    Mat4 transfo = glm::rotate(a,N);
+
 	// tourne autour du Z de la local frame
 	// indice utilisation de glm::inverse()
 
-    // ATTENTE DE l'IMPLEMENTATION DE LA ROTATION DANS local_frame
-
-    Mat4 transfo = local_frame(q);
-
     // Application au 4 points du quad
+
+    auto rotate = [&] (Vec3 V, Vec3 center, Mat4 transfo) -> Vec3
+    {
+        Vec4 X = Vec4(V,1);
+        X -= Vec4(center, 0);
+        X  = transfo * X;
+        X += Vec4(center, 0);
+        return Vec3(X.x,X.y,X.z);
+    };
+
+    m_points[IDA] = rotate(A,center,transfo);
+    m_points[IDB] = rotate(B,center,transfo);
+    m_points[IDC] = rotate(C,center,transfo);
+    m_points[IDD] = rotate(D,center,transfo);
 
     gl_update();
 }
