@@ -379,9 +379,11 @@ Mat4 MeshQuad::local_frame(int q)
     float RY = 0.0;
     float RZ = 0.0;
 
-    Mat4 g = rotateX(RX) * rotateY(RY) * rotateZ(RZ) * translate(center.x,center.y,center.z) * scale(length,length,length);
+    Mat4 g1 = rotateX(RX) * rotateY(RY) * rotateZ(RZ) * translate(center.x,center.y,center.z) * scale(length,length,length);
 
-    return g;
+    Mat4 g2 = Mat4(Vec4(-X,0),Vec4(-Y,0),Vec4(-Z,0),Vec4(center,1));
+
+    return g2;
 }
 
 void MeshQuad::extrude_quad(int q)
