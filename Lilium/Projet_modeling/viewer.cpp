@@ -54,6 +54,20 @@ void Viewer::init()
 void Viewer::draw_repere(const Mat4& global)
 {
 	// affiche un repere de taille 1 place suivant global.
+    Mat4 tr = global;
+    auto fleche = [&] (Vec3 coul)
+    {
+        m_prim.draw_cylinder(tr*translate(0,0,0.2)*scale(0.1,0.1,0.3), coul);
+        m_prim.draw_cone(tr*translate(0,0,0.4)*scale(0.2,0.2,0.2), coul);
+    };
+
+    fleche(BLEU);
+
+    tr = global*rotateY(90);
+    fleche(ROUGE);
+
+    tr = global*rotateX(-90);
+    fleche(VERT);
 }
 
 
@@ -82,9 +96,14 @@ void Viewer::keyPressEvent(QKeyEvent *event)
 			// Attention ctrl c utilise pour screen-shot !
 			if (!(event->modifiers() & Qt::ControlModifier))
 				m_mesh.create_cube();
-		break;
+        break;
 
-			// e extrusion
+        // e extrusion
+        case Qt::Key_E:
+            if(m_selected_quad != -1)
+                m_mesh.extrude_quad(m_selected_quad);
+        break;
+
 			// +/- decale
 			// z/Z shrink
 			// t/T tourne

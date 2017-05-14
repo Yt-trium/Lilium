@@ -111,7 +111,7 @@ void MeshQuad::clear()
 int MeshQuad::add_vertex(const Vec3& P)
 {
     m_points.push_back(P);
-	return 0;
+    return m_points.size()-1;
 }
 
 
@@ -195,8 +195,6 @@ void MeshQuad::create_cube()
 
     add_quad(3,2,6,7);
     add_quad(1,0,4,5);
-
-    debug_test_intersected_visible();
 
 	gl_update();
 }
@@ -343,43 +341,95 @@ int MeshQuad::intersected_visible(const Vec3& P, const Vec3& Dir)
 
 Mat4 MeshQuad::local_frame(int q)
 {
+    // qDebug() << "local_frame" << q;
+
 	// Repere locale = Matrice de transfo avec
 	// les trois premieres colones: X,Y,Z locaux
 	// la derniere colonne l'origine du repere
 
-	// ici Z = N et X = AB
-	// Origine le centre de la face
-	// longueur des axes : [AB]/2
+    // ici Z = N et X = AB
+    // Origine le centre de la face
+    // longueur des axes : [AB]/2
 
 	// recuperation des indices de points
-	// recuperation des points
+    int id = q*4;
 
-	// calcul de Z:N puis de X:arete on en deduit Y
+    // recuperation des points
+    Vec3 A = m_points.at(this->m_quad_indices.at(id++));
+    Vec3 B = m_points.at(this->m_quad_indices.at(id++));
+    Vec3 C = m_points.at(this->m_quad_indices.at(id++));
+    Vec3 D = m_points.at(this->m_quad_indices.at(id++));
+
+    // calcul de Z:N puis de X:arete on en deduit Y
+    Vec3 Z = normal_of_quad(A,B,C,D);
+    Vec3 X = B-A;
+    Vec3 Y = vec_cross(Z,X);
 
 	// calcul du centre
+    Vec3 center = (A + B + C + D);
+    center /= 4;
 
 	// calcul de la taille
+    float length = vec_length(B-A);
 
-	// calcul de la matrice
+    // calcul de la matrice
 
-	return Mat4();
+    // PAS ENCORE IMPLEMENTE
+    float RX = 0.0;
+    float RY = 0.0;
+    float RZ = 0.0;
+
+    Mat4 g = rotateX(RX) * rotateY(RY) * rotateZ(RZ) * translate(center.x,center.y,center.z) * scale(length,length,length);
+
+    return g;
 }
 
 void MeshQuad::extrude_quad(int q)
 {
+    // qDebug() << "extrude_quad" << q;
+
 	// recuperation des indices de points
+    int id = q*4;
 
 	// recuperation des points
+    int IDA = m_quad_indices.at(id);
+    int IDB = m_quad_indices.at(id+1);
+    int IDC = m_quad_indices.at(id+2);
+    int IDD = m_quad_indices.at(id+3);
+
+    Vec3 A = m_points.at(IDA);
+    Vec3 B = m_points.at(IDB);
+    Vec3 C = m_points.at(IDC);
+    Vec3 D = m_points.at(IDD);
 
 	// calcul de la normale
+    Vec3 N = normal_of_quad(A,B,C,D);
 
 	// calcul de la hauteur
+    float distance = sqrt(area_of_quad(A,B,C,D));
 
-	// calcul et ajout des 4 nouveaux points
+    // calcul et ajout des 4 nouveaux points
+    Vec3 NPA = A - N*distance;
+    Vec3 NPB = B - N*distance;
+    Vec3 NPC = C - N*distance;
+    Vec3 NPD = D - N*distance;
 
-	// on remplace le quad initial par le quad du dessu
+    int IDNPA = add_vertex(NPA);
+    int IDNPB = add_vertex(NPB);
+    int IDNPC = add_vertex(NPC);
+    int IDNPD = add_vertex(NPD);
+
+    // on remplace le quad initial par le quad du dessu
+    m_quad_indices[id]   = IDNPA;
+    m_quad_indices[id+1] = IDNPB;
+    m_quad_indices[id+2] = IDNPC;
+    m_quad_indices[id+3] = IDNPD;
 
 	// on ajoute les 4 quads des cotes
+    add_quad(IDB,IDNPB,IDNPA,IDA);
+    add_quad(IDC,IDNPC,IDNPB,IDB);
+    add_quad(IDD,IDNPD,IDNPC,IDC);
+    add_quad(IDA,IDNPA,IDNPD,IDD);
 
 	gl_update();
 }
