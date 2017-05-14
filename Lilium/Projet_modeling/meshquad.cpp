@@ -363,6 +363,9 @@ Mat4 MeshQuad::local_frame(int q)
 	// recuperation des indices de points
     int id = q*4;
 
+    if(m_quad_indices.size() < id)
+        return Mat4();
+
     // recuperation des points
     Vec3 A = m_points.at(this->m_quad_indices.at(id++));
     Vec3 B = m_points.at(this->m_quad_indices.at(id++));
