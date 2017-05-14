@@ -154,11 +154,14 @@ void MeshQuad::convert_quads_to_edges(const std::vector<int>& quads, std::vector
 
     auto add_edges = [&] (int a, int b, std::vector<int>& edges) -> int
     {
+        /*
         for (int i=0;i<edges.size();i+=2)
         {
             if((edges[i] == quads.at(a) && edges[i+1] == quads.at(b)) || (edges[i] == quads.at(b) && edges[i+1] == quads.at(a)))
                 return 0;
         }
+        */
+
         edges.push_back(quads.at(a));
         edges.push_back(quads.at(b));
         return 2;
