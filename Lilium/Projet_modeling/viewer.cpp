@@ -151,7 +151,7 @@ void Viewer::keyPressEvent(QKeyEvent *event)
             m_mesh.create_fig4();
         break;
 
-		default:
+        default:
 			break;
     }
 
